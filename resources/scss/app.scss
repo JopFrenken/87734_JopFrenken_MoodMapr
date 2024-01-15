@@ -1,0 +1,15 @@
+@import 'components/login.scss';
+@import 'components/register.scss';
+
+// font
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+// global styles
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: rgb(252, 199, 120);
+    background: linear-gradient(90deg, rgba(252, 199, 120, 1) 0%, rgba(236, 143, 200, 1) 100%);
+}
