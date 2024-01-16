@@ -38,6 +38,7 @@ async function login(user) {
         }
 
         Cookies.set('token', response.data.token);
+        Cookies.set('id', response.data.user_id);
         return response.data
 
     } catch (error) {

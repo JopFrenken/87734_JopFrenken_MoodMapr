@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+import ExpressMood from '../views/ExpressMood.vue';
 
 const routes = [
     {
@@ -23,6 +24,12 @@ const routes = [
         name: 'Login',
         component: Login,
         meta: { requiresAuth: false },
+    },
+    {
+        path: '/express',
+        name: 'ExpressMood',
+        component: ExpressMood,
+        meta: { requiresAuth: true },
     },
 ];
 

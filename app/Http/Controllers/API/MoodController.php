@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mood;
 use Illuminate\Http\Request;
 
 class MoodController extends Controller
@@ -21,11 +22,21 @@ class MoodController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $mood = new Mood;
+        $mood->mood = $request->selectedItem;
+        $mood->mood_body = $request->moreInfo;
+        $mood->user_id = $request->userId;
+        $mood->save();
+
+        return response()->json([
+            'msg' => "Mood posted",
+            'mood' => $mood,
+            'success' => true
+        ]);
     }
 
     /**
