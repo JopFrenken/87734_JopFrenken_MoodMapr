@@ -38,6 +38,7 @@
 
 <script>
 import userApi from "../api/user.js";
+import router from '@/router';
 export default {
     data() {
         return {
@@ -71,9 +72,10 @@ export default {
             }
 
             let user = await userApi.register(this.user);
-            console.log(user.data.msg);
-
-            if (user.data.success) router.replace('/login');
+            if (user) {
+                console.log(user.data.msg);
+                if (user.data.success) router.replace('/login');
+            }
         }
     }
 }
