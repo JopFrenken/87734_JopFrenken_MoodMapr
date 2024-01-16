@@ -73,7 +73,7 @@ export default {
             let user = await userApi.register(this.user);
             console.log(user.data.msg);
 
-            if (user.data.success) window.location.replace('/login')
+            if (user.data.success) router.replace('/login');
         }
     }
 }

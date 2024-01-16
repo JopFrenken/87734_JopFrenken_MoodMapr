@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import userApi from "../api/user.js";
+import router from '@/router';
 export default {
     data() {
         return {
@@ -39,8 +41,10 @@ export default {
     },
 
     methods: {
-        login() {
-
+        async login() {
+            let user = await userApi.login(this.user);
+            console.log(user);
+            if (user.success) router.replace('/')
         }
     }
 }

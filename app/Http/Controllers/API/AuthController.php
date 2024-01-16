@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -38,7 +38,7 @@ class AuthController extends Controller
         $user = new User;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->password = Crypt::encryptString($request->password);
+        $user->password = Hash::make($request->password);
         try {
             $user->save();
         } catch (\Illuminate\Database\QueryException $exception) {
@@ -70,7 +70,7 @@ class AuthController extends Controller
         $user = User::where('username', $request->username)->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {
-                $token = Str::random(60);
+                $token = Str::random(30);
 
                 return response()->json([
                     'token' => $token,
@@ -78,7 +78,16 @@ class AuthController extends Controller
                     'success' => true
                 ]);
             }
+            return response()->json([
+                'msg' => "Password incorrect",
+                'success' => false
+            ]);
         }
+
+        return response()->json([
+            'msg' => "User not found",
+            'success' => true
+        ]);
     }
 
     /**
