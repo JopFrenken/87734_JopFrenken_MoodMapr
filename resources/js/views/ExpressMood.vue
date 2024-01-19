@@ -38,6 +38,9 @@
 
 <script>
 import moodApi from '../api/mood.js';
+import router from '@/router';
+import Cookies from 'js-cookie';
+
 // svgs
 import sadSvg from '../../assets/emojis/sad.svg';
 import angrySvg from '../../assets/emojis/angry.svg';
@@ -80,7 +83,11 @@ export default {
             }
 
             let mood = await moodApi.storeMood(this.mood);
-            console.log(mood);
+            if (mood) {
+                if (mood.data.success) {
+                    router.replace(`/mood/${mood.data.mood.id}`);
+                }
+            }
         }
     }
 }

@@ -1,0 +1,51 @@
+.past-moods-container {
+    height: 100vh;
+    margin-top: 100px;
+    width: 100%;
+
+    h1 {
+        text-wrap: nowrap;
+    }
+
+    .moods-list {
+        .past-mood {
+            background-color: white;
+            padding: 30px 20px;
+            width: 80%;
+            border-radius: 30px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            text-decoration: none;
+
+            .mood-text {
+                color: #F2A3AB;
+                font-size: 2rem;
+            }
+
+            .mood-date {
+                color: #C2C2C2;
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .pagination-container {
+        background-color: #FFF;
+        padding: 10px;
+        border-radius: 10px;
+
+        button,
+        span {
+            background-color: #fff;
+            border: none;
+            color: #C2C2C2;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0px 7px;
+
+            .active {
+                background-color: #57AEFF;
+                color: #fff;
+            }
+        }
+    }
+}

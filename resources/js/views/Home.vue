@@ -6,7 +6,7 @@
                 <span>Log Your Daily Mood</span>
             </router-link>
             <div class="bottom-center-container d-flex justify-content-between mt-5">
-                <router-link to="/" class="link text-center">
+                <router-link to="/pastmoods" class="link text-center">
                     <span>Past Moods</span>
                 </router-link>
                 <router-link to="/" class="link text-center">

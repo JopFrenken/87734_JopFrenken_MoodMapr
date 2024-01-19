@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('moods', function (Blueprint $table) {
             $table->id();
             $table->string('mood');
-            $table->text('mood_body');
+            $table->text('mood_body')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -30,5 +30,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::dropIfExists('moods');
+
     }
+
 };
