@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="buttons-container mt-5">
-                    <router-link class="link text-center" to="/"><span>Edit Mood</span></router-link>
+                    <router-link class="link text-center" to="/editmood"><span>Edit Mood</span></router-link>
                     <router-link class="link text-center" to="/pastmoods"><span>Past Moods</span></router-link>
                     <router-link class="link text-center" to="/"><span>Home</span></router-link>
                 </div>

@@ -51,6 +51,26 @@ async function getMoods() {
     }
 }
 
+async function getUserMoods(id) {
+    const obj = {
+        id: id
+    }
+    try {
+        const response = await axios.post(
+            `${apiUrl}/getUserMoods`,
+            obj,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function getMonth(moods) {
     try {
         const response = await axios.post(
@@ -85,11 +105,31 @@ async function getWeek(moods) {
     }
 }
 
+async function updateMood(mood) {
+    console.log(mood);
+    try {
+        const response = await axios.put(
+            `${apiUrl}/mood/${mood.id}`,
+            mood,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export default {
     storeMood,
     getMood,
     getAllMoods,
     getMoods,
     getMonth,
-    getWeek
+    getWeek,
+    updateMood,
+    getUserMoods
 }

@@ -13,6 +13,7 @@ import PastMood from '../views/PastMood.vue';
 import PastMoods from '../views/PastMoodList.vue';
 import MonthyList from '../views/MonthlyList.vue';
 import WeeklyList from '../views/WeeklyList.vue';
+import EditMood from '../views/EditMood.vue';
 
 const routes = [
     {
@@ -43,7 +44,7 @@ const routes = [
         path: '/mood/:id',
         name: 'ViewMood',
         component: ViewMood,
-        meta: { requiresAuth: true, requiresMatchingDate: true }
+        meta: { requiresAuth: true }
     },
     {
         path: '/pastmoods',
@@ -67,6 +68,12 @@ const routes = [
         path: '/weekly',
         name: 'WeeklyList',
         component: WeeklyList,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/editmood',
+        name: 'EditMood',
+        component: EditMood,
         meta: { requiresAuth: true }
     },
 ];

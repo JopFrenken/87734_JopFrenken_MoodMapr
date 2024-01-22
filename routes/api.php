@@ -22,8 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('user', AuthController::class);
 Route::post('login', [AuthController::class, 'login']);
+
 Route::apiResource('mood', MoodController::class);
 Route::post('getDate', [MoodController::class, 'getDate']);
 Route::get('getMoods', [MoodController::class, 'getMoods']);
+Route::post('getUserMoods', [MoodController::class, 'getUserMoods']);
 Route::post('getMonth', [MoodController::class, 'getMonth']);
 Route::post('getWeek', [MoodController::class, 'getWeek']);

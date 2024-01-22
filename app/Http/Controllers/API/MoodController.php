@@ -34,7 +34,7 @@ class MoodController extends Controller
     /**
      * Display a listing of the resource with pagination.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getMoods(Request $request)
     {
@@ -54,7 +54,23 @@ class MoodController extends Controller
         }
     }
 
+    /**
+     * Get the user moods.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserMoods(Request $request)
+    {
+        $moods = Mood::where('user_id', $request->id)->get();
+        $newmoods = $moods->sortByDesc('created_at');
 
+        return response()->json([
+            'msg' => 'User moods',
+            'moods' => $newmoods,
+            'success' => true
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -200,5 +216,20 @@ class MoodController extends Controller
                 'success' => false
             ]);
         }
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $mood = Mood::find($id);
+
+        $mood->mood = $request->selectedItem;
+        $mood->mood_body = $request->moreInfo;
+        $mood->save();
+
+        return response()->json([
+            'msg' => "Mood posted",
+            'mood' => $mood,
+            'success' => true
+        ]);
     }
 }
