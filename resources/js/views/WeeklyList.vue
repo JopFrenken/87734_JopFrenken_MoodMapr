@@ -3,7 +3,7 @@
         <h1 class="text-center fw-bold">Past Moods</h1>
         <div class="moods-list w-100 d-flex flex-column align-items-center mt-4">
             <div v-for="(week, year) in weeks" :key="year" class="moods-list">
-                <router-link to="/" class="week-link d-flex justify-content-center">
+                <router-link to="/" class="week-link d-flex justify-content-center past-mood">
                     <div class="mood-text fw-bold">{{ week.lastMoodWeek }}</div>
                 </router-link>
             </div>
@@ -41,17 +41,31 @@ export default {
     methods: {
         async getPastMoods(page = 1) {
             try {
-                // Assuming that moodApi.getMoods() returns an array of mood objects
                 const response = await moodApi.getMoods();
                 const moods = response.data.moods;
                 const weeks = await moodApi.getWeek(moods);
-                console.log(weeks);
-                this.weeks = weeks.data.weeks;
-                console.log(this.weeks);
+                const uniqueWeeks = this.getUniqueWeeks(weeks.data.weeks);
+                this.weeks = uniqueWeeks;
             } catch (error) {
                 console.error(error);
             }
         },
+
+        getUniqueWeeks(weeks) {
+            const uniqueWeeks = [];
+            const seenWeeks = new Set();
+
+            for (const week of weeks) {
+                const weekString = `${week.lastMoodWeek}-${week.lastMoodYear}`;
+
+                if (!seenWeeks.has(weekString)) {
+                    seenWeeks.add(weekString);
+                    uniqueWeeks.push(week);
+                }
+            }
+
+            return uniqueWeeks;
+        }
     },
 
     computed: {
@@ -85,22 +99,6 @@ export default {
             }
 
             return pages;
-        },
-
-        groupedWeeks() {
-            const groupedWeeks = {};
-            console.log(this.weeks);
-
-            this.weeks.data.weeks.forEach((week) => {
-                console.log(week);
-                const year = week.lastMoodYear.toString();
-                if (!groupedWeeks[year]) {
-                    groupedWeeks[year] = [];
-                }
-                groupedWeeks[year].push(week);
-            });
-
-            return groupedWeeks;
         },
     },
 };
