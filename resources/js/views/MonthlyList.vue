@@ -2,8 +2,9 @@
     <div class="past-months-container d-flex flex-column align-items-center">
         <h1 class="text-center fw-bold">Past Moods</h1>
         <div class="moods-list w-100 d-flex flex-column align-items-center mt-4">
-            <div v-for="(groupedMonthsData, year) in groupedMonths" :key="year" class="moods-list">
-                <router-link to="/" v-for="(moods, month) in groupedMonthsData" :key="month + year"
+            <div v-for="(groupedMonthsData, year) in  groupedMonths " :key="year" class="moods-list">
+                <router-link :to="{ path: '/month', query: { month: month, year: year } }"
+                    v-for="(moods, month) in  groupedMonthsData " :key="month + year"
                     class="month-year-div past-mood d-flex justify-content-center">
                     <div class="mood-text fw-bold">{{ month }}</div>
                     <div class="mood-text fw-bold mood-year"> {{ year }}</div>
@@ -12,7 +13,7 @@
         </div>
         <div class="pagination-container mt-4">
             <button :disabled="currentPage === 1" @click="getPastMoods(currentPage - 1)">&lt;</button>
-            <span v-for="page in displayPages" :key="page">
+            <span v-for=" page  in  displayPages " :key="page">
                 <template v-if="page === '...'">{{ page }}</template>
                 <button v-else @click="getPastMoods(page)" :class="{ active: page === currentPage }">{{ page }}</button>
             </span>
@@ -53,6 +54,7 @@ export default {
                 const groupedMonths = {};
                 months.data.months.forEach((mood) => {
                     const { lastMoodMonth, lastMoodYear } = mood;
+                    console.log(lastMoodYear);
                     if (!groupedMonths[lastMoodYear]) {
                         groupedMonths[lastMoodYear] = {};
                     }

@@ -9,10 +9,10 @@
                 <router-link to="/pastmoods" class="link text-center">
                     <span>Past Moods</span>
                 </router-link>
-                <router-link to="/" class="link text-center">
+                <router-link to="/weekly" class="link text-center">
                     <span>Weekly Moods</span>
                 </router-link>
-                <router-link to="/" class="link text-center">
+                <router-link to="/monthly" class="link text-center">
                     <span>Monthly Moods</span>
                 </router-link>
             </div>

@@ -3,8 +3,12 @@
         <h1 class="text-center fw-bold">Past Moods</h1>
         <div class="moods-list w-100 d-flex flex-column align-items-center mt-4">
             <div v-for="(week, year) in weeks" :key="year" class="moods-list">
-                <router-link to="/" class="week-link d-flex justify-content-center past-mood">
+                <router-link
+                    :to="{ path: '/week', query: { startWeek: week.lastMoodWeek, endWeek: week.endWeek, year: week.lastMoodYear } }"
+                    class="week-link d-flex justify-content-center past-mood">
                     <div class="mood-text fw-bold">{{ week.lastMoodWeek }}</div>
+                    <span class="mood-text fw-bold mx-3"> until </span>
+                    <div class="mood-text fw-bold">{{ week.endWeek }}</div>
                 </router-link>
             </div>
         </div>

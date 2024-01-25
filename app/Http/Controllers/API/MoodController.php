@@ -133,7 +133,7 @@ class MoodController extends Controller
                 // Convert the date string to a Carbon instance
                 $lastMoodDate = Carbon::parse($mood['created_at']);
 
-                // Get the month in full text format (e.g., 'January')
+                // Get the month in full text 
                 $month = $lastMoodDate->format('F');
 
                 // Get the year
@@ -144,7 +144,6 @@ class MoodController extends Controller
                     'lastMoodYear' => $year,
                 ];
             } else {
-                // If the date is empty, you may want to handle it differently or provide a default value
                 $result[] = [
                     'lastMoodMonth' => null,
                     'lastMoodYear' => null,
@@ -179,7 +178,8 @@ class MoodController extends Controller
                 $year = $lastMoodDate->format('Y');
 
                 $result[] = [
-                    'lastMoodWeek' => $weekRange,
+                    'lastMoodWeek' => $startOfWeek->toDateString(),
+                    'endWeek' => $endOfWeek->toDateString(),
                     'lastMoodYear' => $year,
                 ];
             } else {
@@ -190,9 +190,76 @@ class MoodController extends Controller
             }
         }
 
+        usort($result, function ($a, $b) {
+            return strtotime($b['lastMoodWeek']) - strtotime($a['lastMoodWeek']);
+        });
+
         return response()->json(['weeks' => $result]);
     }
 
+    /**
+     * Get moods for a specific month.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getMoodsByMonth(Request $request)
+    {
+        try {
+            $carbonMonth = Carbon::parse($request->month);
+            $year = $request->year;
+
+            $startOfMonth = Carbon::createFromDate($year, $carbonMonth->month, 1)->startOfMonth();
+            $endOfMonth = Carbon::createFromDate($year, $carbonMonth->month, 1)->endOfMonth();
+
+            // Retrieve moods within the specified month and year
+            $moods = Mood::whereBetween('created_at', [$startOfMonth, $endOfMonth])->get();
+
+            return response()->json([
+                'msg' => 'Moods for the specified month and year',
+                'moods' => $moods,
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'success' => false,
+            ], 500);
+        }
+    }
+
+
+    /**
+     * Get moods for a specific week.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getMoodsByWeek(Request $request)
+    {
+        try {
+            $year = $request->year;
+
+            $startOfWeek = $request->startWeek;
+            $endOfWeek = $request->endWeek;
+
+            // Retrieve moods within the specified month and year
+            $moods = Mood::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->whereYear('created_at', $year)
+                ->get();
+
+            return response()->json([
+                'msg' => 'Moods for the specified week and year',
+                'moods' => $moods,
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'success' => false,
+            ], 500);
+        }
+    }
 
     /**
      * Display the specified resource.

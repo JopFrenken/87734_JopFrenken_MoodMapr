@@ -14,6 +14,8 @@ import PastMoods from '../views/PastMoodList.vue';
 import MonthyList from '../views/MonthlyList.vue';
 import WeeklyList from '../views/WeeklyList.vue';
 import EditMood from '../views/EditMood.vue';
+import Week from '../views/WeeklyView.vue';
+import Month from '../views/MonthlyView.vue';
 
 const routes = [
     {
@@ -76,6 +78,18 @@ const routes = [
         component: EditMood,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/week',
+        name: 'Week',
+        component: Week,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/month',
+        name: 'Month',
+        component: Month,
+        meta: { requiresAuth: true }
+    }
 ];
 
 const router = createRouter({

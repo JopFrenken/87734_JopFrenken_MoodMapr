@@ -29,3 +29,5 @@ Route::get('getMoods', [MoodController::class, 'getMoods']);
 Route::post('getUserMoods', [MoodController::class, 'getUserMoods']);
 Route::post('getMonth', [MoodController::class, 'getMonth']);
 Route::post('getWeek', [MoodController::class, 'getWeek']);
+Route::post('getMoodsByMonth', [MoodController::class, 'getMoodsByMonth']);
+Route::post('getMoodsByWeek', [MoodController::class, 'getMoodsByWeek']);

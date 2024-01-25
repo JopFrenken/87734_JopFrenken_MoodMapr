@@ -105,6 +105,49 @@ async function getWeek(moods) {
     }
 }
 
+async function getMoodsByMonth(month, year) {
+    const obj = {
+        month: month,
+        year: year
+    };
+    try {
+        const response = await axios.post(
+            `${apiUrl}/getMoodsByMonth`,
+            obj,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getMoodsByWeek(startWeek, endWeek, year) {
+    const obj = {
+        startWeek: startWeek,
+        endWeek: endWeek,
+        year: year
+    };
+    try {
+        const response = await axios.post(
+            `${apiUrl}/getMoodsByWeek`,
+            obj,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 async function updateMood(mood) {
     console.log(mood);
     try {
@@ -131,5 +174,7 @@ export default {
     getMonth,
     getWeek,
     updateMood,
-    getUserMoods
+    getUserMoods,
+    getMoodsByMonth,
+    getMoodsByWeek
 }
