@@ -1,4 +1,5 @@
 <template>
+    <navbar></navbar>
     <div class="home-page-container d-flex flex-column align-items-center h-100">
         <h1 class="text-white fw-bold">Welcome!</h1>
         <div class="home-center-container h-100 d-flex justify-content-center flex-column">
@@ -21,8 +22,11 @@
 </template>
 
 <script>
+import navbar from "../components/NavBar.vue";
 export default {
-
+    components: {
+        navbar
+    }
 }
 </script>
 

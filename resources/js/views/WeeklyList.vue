@@ -1,4 +1,5 @@
 <template>
+    <navbar></navbar>
     <div class="past-months-container d-flex flex-column align-items-center">
         <h1 class="text-center fw-bold">Past Moods</h1>
         <div class="moods-list w-100 d-flex flex-column align-items-center mt-4">
@@ -26,8 +27,13 @@
 
 <script>
 import moodApi from '../api/mood.js';
+import navbar from "../components/NavBar.vue";
 
 export default {
+    components: {
+        navbar
+    },
+
     data() {
         return {
             moods: [],

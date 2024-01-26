@@ -1,0 +1,36 @@
+.navbar-container {
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 999;
+
+
+    i {
+        font-size: 3rem;
+        cursor: pointer;
+    }
+
+
+
+    .fa-x {
+        color: #F2A3AB;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .navbar {
+        .navbar-item {
+            color: #F2A3AB;
+            font-size: 1.6rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+}
+
+.visible {
+    background-color: white;
+}

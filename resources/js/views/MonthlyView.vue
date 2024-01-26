@@ -1,4 +1,5 @@
 <template>
+    <navbar></navbar>
     <div class="outer-container">
         <div class="inner-container mood-inner-container">
             <div class="moodview-page-container d-flex flex-column align-items-center">
@@ -18,6 +19,7 @@
 <script>
 import PieChart from '../components/PieChart.vue';
 import BarChart from '../components/BarChart.vue';
+import navbar from "../components/NavBar.vue";
 import moodApi from '../api/mood.js';
 export default {
     data() {
@@ -31,7 +33,8 @@ export default {
 
     components: {
         PieChart,
-        BarChart
+        BarChart,
+        navbar
     },
 
     mounted() {

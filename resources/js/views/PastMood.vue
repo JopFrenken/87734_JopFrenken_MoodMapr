@@ -1,4 +1,5 @@
 <template>
+    <navbar></navbar>
     <div class="outer-container">
         <div class="inner-container mood-inner-container">
             <div class="moodview-page-container d-flex flex-column align-items-center">
@@ -27,6 +28,7 @@
 <script>
 import moodApi from '../api/mood.js';
 import router from '@/router';
+import navbar from "../components/NavBar.vue";
 // svgs
 import sadSvg from '../../assets/emojis/sad.svg';
 import angrySvg from '../../assets/emojis/angry.svg';
@@ -34,6 +36,10 @@ import mehSvg from '../../assets/emojis/meh.svg';
 import contentSvg from '../../assets/emojis/content.svg';
 import happySvg from '../../assets/emojis/happy.svg';
 export default {
+    components: {
+        navbar
+    },
+
     data() {
         return {
             mood: {
