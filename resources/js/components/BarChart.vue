@@ -30,6 +30,7 @@ export default {
                             });
                         }
                     })
+
                     this.createChart();
                 }
             }
@@ -42,11 +43,12 @@ export default {
 
     methods: {
         createChart() {
-            let width = 450
-            let height = 450
-            let margin = 40
+            let width = 450;
+            let height = 450;
+            let margin = 40;
 
             var svg = d3.select(".barchart")
+                .html("")
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -56,7 +58,7 @@ export default {
             var data = {};
 
             this.moodsCount.forEach((mood) => {
-                data[mood.mood] = mood.count
+                data[mood.mood] = mood.count;
             });
 
             // Convert data object into an array of objects
@@ -67,13 +69,22 @@ export default {
                 .domain(data_ready.map(d => d.key))
                 .padding(0.1);
 
+            var yMax = d3.max(data_ready, d => d.value);
+            var yTicks = yMax <= 1 ? 2 : Math.ceil(yMax);
+
             var y = d3.scaleLinear()
                 .range([height - 2 * margin, 0])
-                .domain([0, d3.max(data_ready, d => d.value)]);
+                .domain([0, yMax]);
+
+            // Calculate the tick values
+            var tickValues = [];
+            for (let i = 0; i <= yMax; i++) {
+                tickValues.push(i);
+            }
 
             svg.append("g")
-                .call(d3.axisLeft(y).tickFormat(d3.format(".0f")))
-                .attr('class', "y-axis")
+                .call(d3.axisLeft(y).tickValues(tickValues).tickFormat(d3.format(".0f")))
+                .attr('class', "y-axis");
 
             svg.selectAll("rect")
                 .data(data_ready)
@@ -113,8 +124,8 @@ export default {
             d3.select(".bar-chart-container")
                 .append("div")
                 .attr("class", "tooltip");
-
         },
+
     },
 }
 </script>
