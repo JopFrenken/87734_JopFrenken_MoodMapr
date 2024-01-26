@@ -17,9 +17,12 @@ class MoodController extends Controller
     public function index(Request $request)
     {
         $page = $request->input('page', 1);
+        $userId = $request->input('userId');
         $perPage = 4;
 
-        $moods = Mood::orderBy('created_at', 'desc')->paginate($perPage);
+        $moods = Mood::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
 
         return response()->json([
             'msg' => 'Paginated moods',
@@ -32,14 +35,17 @@ class MoodController extends Controller
     }
 
     /**
-     * Display a listing of the resource with pagination.
+     * Display a listing of the resource
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getMoods(Request $request)
     {
         try {
-            $moods = Mood::all();
+            $userId = $request->input('userId');
+
+            $moods = Mood::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
+
 
             return response()->json([
                 'msg' => 'All moods',
@@ -206,6 +212,7 @@ class MoodController extends Controller
     public function getMoodsByMonth(Request $request)
     {
         try {
+            $userId = $request->userId;
             $carbonMonth = Carbon::parse($request->month);
             $year = $request->year;
 
@@ -213,7 +220,9 @@ class MoodController extends Controller
             $endOfMonth = Carbon::createFromDate($year, $carbonMonth->month, 1)->endOfMonth();
 
             // Retrieve moods within the specified month and year
-            $moods = Mood::whereBetween('created_at', [$startOfMonth, $endOfMonth])->get();
+            $moods = Mood::where('user_id', $userId)
+                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->get();
 
             return response()->json([
                 'msg' => 'Moods for the specified month and year',
@@ -238,13 +247,15 @@ class MoodController extends Controller
     public function getMoodsByWeek(Request $request)
     {
         try {
+            $userId = $request->userId;
             $year = $request->year;
 
             $startOfWeek = $request->startWeek;
             $endOfWeek = $request->endWeek;
 
             // Retrieve moods within the specified month and year
-            $moods = Mood::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            $moods = Mood::where('user_id', $userId)
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->whereYear('created_at', $year)
                 ->get();
 

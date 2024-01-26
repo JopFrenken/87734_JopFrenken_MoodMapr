@@ -16,6 +16,8 @@
                         v-model="user.password">
                     <i class="fa-solid fa-lock"></i>
                 </div>
+                <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6Lf-F10pAAAAALkRwR5NCkYORzj8gYS3UCZ1sVoT">
+                </div>
                 <div class="submit-container d-flex justify-content-center">
                     <button class="reg-sub-btn"><i class="fa-solid fa-right-to-bracket"></i>Login</button>
                 </div>
@@ -40,11 +42,28 @@ export default {
         }
     },
 
+    mounted() {
+        // Render reCAPTCHA widget when the component is mounted
+        grecaptcha.ready(function () {
+            grecaptcha.render("recaptcha-container", {
+                "sitekey": "6Lf-F10pAAAAALkRwR5NCkYORzj8gYS3UCZ1sVoT"
+            });
+        });
+    },
+
     methods: {
         async login() {
+            // Add reCAPTCHA validation here before submitting login request
+            let response = await grecaptcha.getResponse();
+            if (response.length === 0) {
+                // reCAPTCHA not verified, handle accordingly (e.g., show error message)
+                console.error('Please verify reCAPTCHA.');
+                return;
+            }
+            this.user.recaptcha_response = response;
+            // Proceed with login request
             let user = await userApi.login(this.user);
-            console.log(user);
-            if (user.success) router.replace('/')
+            if (user.success) router.replace('/');
         }
     }
 }

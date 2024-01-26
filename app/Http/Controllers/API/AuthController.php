@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -67,6 +68,21 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $recaptchaResponse = $request->recaptcha_response;
+        $secretKey = env('RECAPTCHA_SECRET_KEY');
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $recaptchaResponse
+        ]);
+
+        $responseData = $response->json();
+
+        // Check reCAPTCHA verification result
+        if (!$responseData['success']) {
+            // reCAPTCHA verification failed
+            return response()->json(['error' => 'reCAPTCHA verification failed'], 400);
+        }
         $user = User::where('username', $request->username)->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {

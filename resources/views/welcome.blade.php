@@ -20,6 +20,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
+
+
     @vite('resources/js/app.js')
 </head>
 

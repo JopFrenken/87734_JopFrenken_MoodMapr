@@ -35,7 +35,8 @@ async function getMood(moodId) {
 
 async function getAllMoods(page = 1) {
     try {
-        const response = await axios.get(`${apiUrl}/mood`, { params: { page } });
+        const userId = Cookies.get('id');
+        const response = await axios.get(`${apiUrl}/mood`, { params: { page, userId } });
         return response;
     } catch (error) {
         console.error(error);
@@ -44,7 +45,8 @@ async function getAllMoods(page = 1) {
 
 async function getMoods() {
     try {
-        const response = await axios.get(`${apiUrl}/getMoods`);
+        const userId = Cookies.get('id');
+        const response = await axios.get(`${apiUrl}/getMoods`, { params: { userId } });
         return response;
     } catch (error) {
         console.error(error);
@@ -106,9 +108,11 @@ async function getWeek(moods) {
 }
 
 async function getMoodsByMonth(month, year) {
+    let userId = Cookies.get('id');
     const obj = {
         month: month,
-        year: year
+        year: year,
+        userId
     };
     try {
         const response = await axios.post(
@@ -127,10 +131,12 @@ async function getMoodsByMonth(month, year) {
 }
 
 async function getMoodsByWeek(startWeek, endWeek, year) {
+    let userId = Cookies.get('id');
     const obj = {
         startWeek: startWeek,
         endWeek: endWeek,
-        year: year
+        year: year,
+        userId
     };
     try {
         const response = await axios.post(
@@ -149,7 +155,6 @@ async function getMoodsByWeek(startWeek, endWeek, year) {
 }
 
 async function updateMood(mood) {
-    console.log(mood);
     try {
         const response = await axios.put(
             `${apiUrl}/mood/${mood.id}`,

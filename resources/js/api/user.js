@@ -20,7 +20,9 @@ async function register(user) {
 }
 
 async function login(user) {
+    console.log(user);
     try {
+        // Send login request with user data including reCAPTCHA response
         const response = await axios.post(
             `${apiUrl}/login`,
             user,
