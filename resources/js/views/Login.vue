@@ -18,7 +18,7 @@
                 </div>
                 <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6Lf-F10pAAAAALkRwR5NCkYORzj8gYS3UCZ1sVoT">
                 </div>
-                <div class="submit-container d-flex justify-content-center">
+                <div class="mt-4 submit-container d-flex justify-content-center">
                     <button class="reg-sub-btn"><i class="fa-solid fa-right-to-bracket"></i>Login</button>
                 </div>
                 <div class="already-container d-flex justify-content-center">

@@ -97,6 +97,9 @@ const router = createRouter({
     routes,
 });
 
+const findMoodById = (moodId, next) => {
+
+}
 
 // Navigation guard to check authentication status
 router.beforeEach((to, from, next) => {
@@ -136,7 +139,42 @@ router.beforeEach((to, from, next) => {
                     } else if (isToday && to.name == "ExpressMood") {
                         console.log('Today matches last mood date. Redirecting to home.');
                         next('/');
-                    } else {
+                    } if (to.name == "ViewMood" || to.name === "PastMood") {
+                        axios.get(`${apiUrl}/mood/${to.params.id}`)
+                            .then(response => {
+                                // Check if the mood belongs to the user
+                                if (response.data.user_id != Cookies.get('id')) {
+                                    // Redirect the user to an appropriate route
+                                    next('/');
+                                } else {
+                                    // Proceed with the navigation
+                                    if (to.name == "ViewMood") {
+                                        axios.get(`${apiUrl}/mood/${to.params.id}`).then((response) => {
+                                            const moodViewDate = new Date(response.data.mood.created_at);
+                                            const isMoodToday = moodViewDate.toISOString().split('T')[0] === date.toISOString().split('T')[0];
+
+                                            if (isMoodToday) {
+                                                next(); // Proceed with the navigation
+                                            } else {
+                                                console.log('Mood is not today. Redirecting to home.');
+                                                next('/'); // Redirect to home page
+                                            }
+                                        }).catch(error => {
+                                            console.error('Error fetching mood date:', error);
+                                            next('/'); // Redirect to home page in case of error
+                                        });
+                                    } else {
+                                        next();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching mood:', error);
+                                next('/');
+                            });
+                    }
+
+                    else {
                         next();
                     }
                 })

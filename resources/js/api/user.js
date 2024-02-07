@@ -20,7 +20,6 @@ async function register(user) {
 }
 
 async function login(user) {
-    console.log(user);
     try {
         // Send login request with user data including reCAPTCHA response
         const response = await axios.post(
@@ -32,8 +31,6 @@ async function login(user) {
                 },
             }
         );
-
-        console.log(response.data.token);
         if (!response.data.success) {
             console.error('Something went wrong with the login');
             return;

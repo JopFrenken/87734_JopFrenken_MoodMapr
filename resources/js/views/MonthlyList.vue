@@ -55,11 +55,11 @@ export default {
                 const months = await moodApi.getMonth(moods);
 
 
+
                 // Grouping moods by year and month
                 const groupedMonths = {};
                 months.data.months.forEach((mood) => {
                     const { lastMoodMonth, lastMoodYear } = mood;
-                    console.log(lastMoodYear);
                     if (!groupedMonths[lastMoodYear]) {
                         groupedMonths[lastMoodYear] = {};
                     }
@@ -68,9 +68,15 @@ export default {
                     }
                     groupedMonths[lastMoodYear][lastMoodMonth].push(mood);
                 });
-                this.groupedMonths = groupedMonths;
+                const years = Object.keys(groupedMonths).reverse();
+                const reversedGroupedMonths = {};
+                years.forEach((year) => {
+                    console.log(year);
+                    reversedGroupedMonths[year] = groupedMonths[year];
+                });
+                console.log(reversedGroupedMonths);
 
-                console.log(this.groupedMonths);
+                this.groupedMonths = reversedGroupedMonths;
 
             } catch (error) {
                 console.error(error);
@@ -110,11 +116,6 @@ export default {
             }
 
             return pages;
-        },
-
-        sortedYears() {
-            // Sort years in descending order
-            return Object.keys(this.groupedMonths).sort((a, b) => b - a);
         },
     },
 };

@@ -118,7 +118,9 @@ class MoodController extends Controller
     {
         $lastMoodDate = session()->get('lastMoodDate_' . $request->id);
 
-        return response()->json(['lastMoodDate' => $lastMoodDate]);
+        return response()->json([
+            'lastMoodDate' => $lastMoodDate
+        ]);
     }
 
     /**
@@ -157,7 +159,7 @@ class MoodController extends Controller
             }
         }
 
-        return response()->json(['months' => $result]);
+        return response()->json(['months' => array_reverse($result)]);
     }
 
     /**
@@ -286,6 +288,7 @@ class MoodController extends Controller
             return response()->json([
                 'msg' => 'Mood found',
                 'mood' => $mood,
+                'user_id' => $mood->user_id,
                 'success' => true
             ]);
         } else {

@@ -25,7 +25,9 @@
                         v-model="confirm">
                     <i class="fa-solid fa-lock"></i>
                 </div>
-                <div class="submit-container d-flex justify-content-center">
+                <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6Lf-F10pAAAAALkRwR5NCkYORzj8gYS3UCZ1sVoT">
+                </div>
+                <div class="mt-4 submit-container d-flex justify-content-center">
                     <button class="reg-sub-btn"><i class="fa-solid fa-right-to-bracket"></i>Register</button>
                 </div>
                 <div class="already-container">
@@ -51,6 +53,15 @@ export default {
         }
     },
 
+    mounted() {
+        // Render reCAPTCHA widget when the component is mounted
+        grecaptcha.ready(function () {
+            grecaptcha.render("recaptcha-container", {
+                "sitekey": "6Lf-F10pAAAAALkRwR5NCkYORzj8gYS3UCZ1sVoT"
+            });
+        });
+    },
+
     methods: {
         async register() {
             const isValidEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(this.user.email);
@@ -70,6 +81,14 @@ export default {
                 console.error("Passwords don't match.");
                 return;
             }
+
+            let response = await grecaptcha.getResponse();
+            if (response.length === 0) {
+                // reCAPTCHA not verified, handle accordingly (e.g., show error message)
+                console.error('Please verify reCAPTCHA.');
+                return;
+            }
+            this.user.recaptcha_response = response;
 
             let user = await userApi.register(this.user);
             if (user) {

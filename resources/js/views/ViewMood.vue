@@ -29,6 +29,7 @@
 <script>
 import moodApi from '../api/mood.js';
 import router from '@/router';
+import Cookies from 'js-cookie';
 import navbar from "../components/NavBar.vue";
 // svgs
 import sadSvg from '../../assets/emojis/sad.svg';
@@ -46,11 +47,12 @@ export default {
             mood: {
                 moodText: "",
                 moodBody: ""
-            }
+            },
+            userId: 0
         }
     },
 
-    mounted() {
+    created() {
         this.getMood();
     },
 
@@ -72,9 +74,9 @@ export default {
     methods: {
         async getMood() {
             let mood = await moodApi.getMood(this.$route.params.id);
+            this.userId = mood.data.user_id;
             this.mood.moodText = mood.data.mood.mood;
             this.mood.moodBody = mood.data.mood.mood_body;
-            console.log(this.mood.moodBody);
         }
     }
 }

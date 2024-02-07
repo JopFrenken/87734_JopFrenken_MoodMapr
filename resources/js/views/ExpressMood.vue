@@ -27,7 +27,7 @@
                 </div>
                 <div class="context-container mt-5 d-flex flex-column align-items-center">
                     <h2 class="text-center mt-5">Want to tell us why?</h2>
-                    <textarea v-model="mood.moreInfo" class="mt-4" cols="80" rows="4"
+                    <textarea maxlength="100" v-model="mood.moreInfo" class="mt-4" cols="80" rows="4"
                         placeholder="Start typing here..."></textarea>
                     <button @click="sendMood" class="send-btn mt-5">Send</button>
                 </div>
